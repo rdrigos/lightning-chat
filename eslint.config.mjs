@@ -1,5 +1,6 @@
 import eslint from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintPluginDrizzle from 'eslint-plugin-drizzle';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
@@ -19,6 +20,7 @@ export default defineConfig(
   {
     plugins: {
       prettier: eslintPluginPrettier,
+      drizzle: eslintPluginDrizzle,
     },
     rules: {
       'prettier/prettier': 'error',
