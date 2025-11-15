@@ -1,6 +1,8 @@
 import { Hasher } from '@/core/cryptography/hasher.abstract';
-import argon from 'argon2';
+import { Injectable } from '@nestjs/common';
+import * as argon from 'argon2';
 
+@Injectable()
 export class HasherService implements Hasher {
   public async hash(plain: string): Promise<string> {
     return await argon.hash(plain);

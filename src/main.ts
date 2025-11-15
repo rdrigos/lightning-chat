@@ -1,7 +1,8 @@
 import { AppModule } from '@/app.module';
 import { EnvironmentService } from '@/infrastructure/environment/environment.service';
+import { LoggerService } from '@/infrastructure/logger/logger.service';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { LoggerService } from './infrastructure/logger/logger.service';
 
 (async () => {
   const app = await NestFactory.create(AppModule, {
@@ -14,6 +15,15 @@ import { LoggerService } from './infrastructure/logger/logger.service';
 
   // Configure global application utilities
   app.useLogger(logger);
+
+  // Configure global pipes
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      stopAtFirstError: true,
+    })
+  );
 
   await app.listen(env.get('PORT'));
 })();

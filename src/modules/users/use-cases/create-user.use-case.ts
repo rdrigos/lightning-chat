@@ -3,7 +3,7 @@ import { CreateUserDTO } from '@/modules/users/dtos/create-user.dto';
 import { UserDTO } from '@/modules/users/dtos/user.dto';
 import { User } from '@/modules/users/entities/user.entity';
 import { UserAlreadyExistsError } from '@/modules/users/errors/user-already-exists.error';
-import { UserMapper } from '@/modules/users/mapper/user.mapper';
+import { UserMapper } from '@/modules/users/mappers/user.mapper';
 import { UserRepository } from '@/modules/users/repositories/user.repository';
 import { Injectable } from '@nestjs/common';
 
