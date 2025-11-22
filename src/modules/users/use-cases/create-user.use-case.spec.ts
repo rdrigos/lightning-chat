@@ -1,5 +1,5 @@
 import { CreateUserDTO } from '@/modules/users/dtos/create-user.dto';
-import { UserAlreadyExistsError } from '@/modules/users/errors/user-already-exists.error';
+import { UserAlreadyExistsException } from '@/modules/users/exceptions/user-already-exists.exception';
 import { CreateUserUseCase } from '@/modules/users/use-cases/create-user.use-case';
 import { faker } from '@faker-js/faker';
 import { FakeHasher } from 'tests/cryptography/fake-hasher';
@@ -61,6 +61,6 @@ describe('Create User', () => {
 
     await sut.execute(input);
 
-    await expect(sut.execute(input)).rejects.toBeInstanceOf(UserAlreadyExistsError);
+    await expect(sut.execute(input)).rejects.toBeInstanceOf(UserAlreadyExistsException);
   });
 });

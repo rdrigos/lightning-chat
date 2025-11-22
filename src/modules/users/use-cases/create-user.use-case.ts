@@ -2,7 +2,7 @@ import { Hasher } from '@/core/cryptography/hasher.abstract';
 import { CreateUserDTO } from '@/modules/users/dtos/create-user.dto';
 import { UserDTO } from '@/modules/users/dtos/user.dto';
 import { User } from '@/modules/users/entities/user.entity';
-import { UserAlreadyExistsError } from '@/modules/users/errors/user-already-exists.error';
+import { UserAlreadyExistsException } from '@/modules/users/exceptions/user-already-exists.exception';
 import { UserMapper } from '@/modules/users/mappers/user.mapper';
 import { UserRepository } from '@/modules/users/repositories/user.repository';
 import { Injectable } from '@nestjs/common';
@@ -18,7 +18,7 @@ export class CreateUserUseCase {
     const hasUserWithSameEmail = await this.userRepository.findByEmail(dto.email);
 
     if (hasUserWithSameEmail) {
-      throw new UserAlreadyExistsError(dto.email);
+      throw new UserAlreadyExistsException(dto.email);
     }
 
     const hashedPassword = await this.hasher.hash(dto.password);
