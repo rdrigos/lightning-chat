@@ -2,7 +2,11 @@ import { User } from '@/modules/users/entities/user.entity';
 import { UserRepository } from '@/modules/users/repositories/user.repository';
 
 export class InMemoryUserRepository implements UserRepository {
-  private readonly users: User[] = [];
+  private users: User[] = [];
+
+  public reset(): void {
+    this.users = [];
+  }
 
   public async save(user: User): Promise<void> {
     const index = this.users.findIndex((stored) => stored.getId() === user.getId());

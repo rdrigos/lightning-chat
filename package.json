@@ -19,7 +19,10 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
+    "test:e2e:ui": "vitest --config ./vitest.config.e2e.ts --ui",
+    "test:e2e:watch": "vitest --config ./vitest.config.e2e.ts"
   },
   "dependencies": {
     "@nestjs/common": "11.1.8",
@@ -44,11 +47,13 @@
     "@faker-js/faker": "10.1.0",
     "@nestjs/cli": "11.0.10",
     "@nestjs/schematics": "11.0.9",
+    "@nestjs/testing": "11.1.9",
     "@swc/cli": "0.7.8",
     "@swc/core": "1.13.5",
     "@types/express": "5.0.5",
     "@types/node": "24.9.2",
     "@types/pg": "8.15.6",
+    "@types/supertest": "6.0.3",
     "@types/uuid": "11.0.0",
     "@vitest/coverage-v8": "4.0.6",
     "@vitest/ui": "4.0.6",
@@ -61,6 +66,7 @@
     "pino-pretty": "13.1.2",
     "prettier": "3.6.2",
     "source-map-support": "0.5.21",
+    "supertest": "7.1.4",
     "ts-loader": "9.5.4",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
