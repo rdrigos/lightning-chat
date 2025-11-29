@@ -19,8 +19,8 @@ export abstract class Entity<Props> {
     this.props = props;
   }
 
-  public getId(): string {
-    return this.id.toValue();
+  public getId(): UniqueEntityID {
+    return this.id;
   }
 
   public getCreatedAt(): Date {

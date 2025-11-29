@@ -1,13 +1,21 @@
 import { ApiValidationException } from '@/core/exceptions/api-validation.exception';
 import { FieldErrorDTO } from '@/shared/dtos/field-error.dto';
-import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
+import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
 import * as util from 'node:util';
 
 @Injectable()
 export class RequestValidationPipe implements PipeTransform {
-  public async transform(value: unknown, { metatype }: ArgumentMetadata) {
+  public async transform(value: unknown, { metatype }: ArgumentMetadata): Promise<any> {
+    if (value === undefined || value === null) {
+      throw new BadRequestException('Request body is missing or invalid');
+    }
+
+    if (typeof value === 'object' && Object.keys(value).length === 0) {
+      throw new BadRequestException('Request body is empty');
+    }
+
     if (!metatype) {
       return value;
     }
@@ -20,7 +28,7 @@ export class RequestValidationPipe implements PipeTransform {
       throw new ApiValidationException(fieldErrors);
     }
 
-    return value;
+    return object;
   }
 
   private flattenErrors(errors: ValidationError[]): FieldErrorDTO[] {

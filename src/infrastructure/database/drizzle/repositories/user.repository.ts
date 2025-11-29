@@ -14,8 +14,8 @@ export class DrizzleUserRepository implements UserRepository {
   ) {}
 
   public async save(user: User): Promise<void> {
-    const persistence = DrizzleUserMapper.toDrizzle(user);
-    await this.drizzle.insert(userTable).values(persistence);
+    const raw = DrizzleUserMapper.toDrizzle(user);
+    await this.drizzle.insert(userTable).values(raw).onConflictDoUpdate({ target: userTable.id, set: raw });
   }
 
   public async findByEmail(email: string): Promise<User | null> {

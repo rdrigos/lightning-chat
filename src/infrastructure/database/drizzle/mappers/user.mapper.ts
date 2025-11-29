@@ -20,7 +20,7 @@ export class DrizzleUserMapper {
 
   public static toDrizzle(user: User): DrizzleUserInsert {
     return {
-      id: user.getId(),
+      id: user.getId().toValue(),
       name: user.getName(),
       email: user.getEmail(),
       password: user.getPassword(),

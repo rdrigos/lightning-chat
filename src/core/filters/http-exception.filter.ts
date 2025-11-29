@@ -17,33 +17,34 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const context = host.switchToHttp();
     const request = context.getRequest<Request>();
     const response = context.getResponse<Response>();
-    const status = exception.getStatus();
-    const payload = exception.getResponse();
     const timestamp = new Date();
 
     if (exception instanceof ApiValidationException) {
-      const { errors } = payload as ValidationPayload;
+      const status = exception.getStatus();
+      const payload = exception.getResponse() as ValidationPayload;
 
       return response.status(status).json({
         code: status,
-        errors,
+        errors: payload.errors,
         path: request.url,
         timestamp,
       });
     }
 
     if (exception instanceof HttpException) {
-      const { message } = payload as HttpPayload;
+      const status = exception.getStatus();
+      const payload = exception.getResponse() as HttpPayload;
 
       return response.status(status).json({
         code: status,
-        message,
+        message: payload.message,
         path: request.url,
         timestamp,
       });
     }
 
     // TODO - Implement error capturing with distributed tracing for monitoring
+    console.error(exception);
 
     // Fallback handler for any unhandled or unexpected internal server error
     return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
