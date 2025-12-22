@@ -11,7 +11,11 @@
     "dev": "nest start --watch",
     "format": "prettier . --write",
     "lint": "eslint .",
-    "start": "nest start"
+    "start": "nest start",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@nestjs/common": "11.1.8",
@@ -25,13 +29,17 @@
   },
   "devDependencies": {
     "@eslint/js": "9.38.0",
+    "@faker-js/faker": "10.1.0",
     "@nestjs/cli": "11.0.10",
     "@nestjs/schematics": "11.0.9",
+    "@nestjs/testing": "11.1.10",
     "@swc/cli": "0.7.8",
     "@swc/core": "1.13.5",
     "@types/express": "5.0.5",
     "@types/node": "24.9.2",
     "@types/uuid": "11.0.0",
+    "@vitest/coverage-v8": "4.0.16",
+    "@vitest/ui": "4.0.16",
     "eslint": "9.38.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.4",
@@ -42,6 +50,9 @@
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.46.2"
+    "typescript-eslint": "8.46.2",
+    "unplugin-swc": "1.5.9",
+    "vite-tsconfig-paths": "6.0.3",
+    "vitest": "4.0.16"
   }
 }
