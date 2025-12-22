@@ -9,6 +9,6 @@ import { Module } from '@nestjs/common';
       useClass: HasherService,
     },
   ],
-  exports: [HasherService],
+  exports: [Hasher],
 })
 export class CryptographyModule {}
