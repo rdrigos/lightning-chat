@@ -23,6 +23,7 @@ export default defineConfig(
     rules: {
       'prettier/prettier': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
