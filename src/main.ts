@@ -3,9 +3,10 @@ import { EnvironmentService } from '@/infrastructure/environment/environment.ser
 import { GlobalExceptionFilter } from '@/infrastructure/http/filters/global-exception.filter';
 import { GlobalValidationPipe } from '@/infrastructure/http/pipes/global-validation.pipe';
 import { NestFactory } from '@nestjs/core';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 
 (async () => {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
 
   // Initialize required dependencies and services
   const env = app.get(EnvironmentService);
