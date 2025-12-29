@@ -1,4 +1,4 @@
-import { Hasher } from '@/core/cryptography/abstract.hasher';
+import { Hasher } from '@/core/cryptography/hasher.abstract';
 import { GlobalValidationPipe } from '@/infrastructure/http/pipes/global-validation.pipe';
 import { CreateUserRequestDTO } from '@/modules/users/dtos/create-user-request.dto';
 import { UserRepository } from '@/modules/users/repositories/user.repository';

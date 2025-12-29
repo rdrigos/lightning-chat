@@ -1,4 +1,4 @@
-import { Entity, EntityMetadata } from '@/domain/entities/abstract.entity';
+import { Entity, EntityMetadata } from '@/domain/entities/entity.abstract';
 
 export interface UserProps {
   name: string;

@@ -1,4 +1,4 @@
-import { Hasher } from '@/core/cryptography/abstract.hasher';
+import { Hasher } from '@/core/cryptography/hasher.abstract';
 
 export class FakeHasher implements Hasher {
   public async hash(plain: string): Promise<string> {

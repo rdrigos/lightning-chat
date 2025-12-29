@@ -1,8 +1,8 @@
-import { PropertyErrorDTO } from '@/infrastructure/http/dto/property-error.dto';
+import { PropertyErrorDTO } from '@/infrastructure/http/dtos/property-error.dto';
+import { ApiValidationException } from '@/infrastructure/http/exceptions/validation.exception';
 import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
-import { ApiValidationException } from '../exceptions/validation.exception';
 
 @Injectable()
 export class GlobalValidationPipe implements PipeTransform {

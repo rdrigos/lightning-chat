@@ -1,4 +1,4 @@
-import { PropertyErrorDTO } from '@/infrastructure/http/dto/property-error.dto';
+import { PropertyErrorDTO } from '@/infrastructure/http/dtos/property-error.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class ApiValidationException extends HttpException {

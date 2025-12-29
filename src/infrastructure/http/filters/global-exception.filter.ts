@@ -1,4 +1,4 @@
-import { PropertyErrorDTO } from '@/infrastructure/http/dto/property-error.dto';
+import { PropertyErrorDTO } from '@/infrastructure/http/dtos/property-error.dto';
 import { ApiValidationException } from '@/infrastructure/http/exceptions/validation.exception';
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { FastifyReply, FastifyRequest } from 'fastify';

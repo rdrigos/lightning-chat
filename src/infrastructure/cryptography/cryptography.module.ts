@@ -1,12 +1,12 @@
-import { Hasher } from '@/core/cryptography/abstract.hasher';
-import { HasherService } from '@/infrastructure/cryptography/hasher.service';
+import { Hasher } from '@/core/cryptography/hasher.abstract';
+import { ArgonHasherService } from '@/infrastructure/cryptography/hasher/argon.service';
 import { Module } from '@nestjs/common';
 
 @Module({
   providers: [
     {
       provide: Hasher,
-      useClass: HasherService,
+      useClass: ArgonHasherService,
     },
   ],
   exports: [Hasher],

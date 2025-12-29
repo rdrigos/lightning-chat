@@ -6,7 +6,7 @@ export interface EntityMetadata {
   updatedAt: Date;
 }
 
-export class Entity<Props> {
+export abstract class Entity<Props> {
   private readonly id: UniqueEntityID;
   private readonly createdAt: Date;
   private updatedAt: Date;

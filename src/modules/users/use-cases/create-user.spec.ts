@@ -1,4 +1,4 @@
-import { Hasher } from '@/core/cryptography/abstract.hasher';
+import { Hasher } from '@/core/cryptography/hasher.abstract';
 import { CreateUserRequestDTO } from '@/modules/users/dtos/create-user-request.dto';
 import { UserAlreadyExistsException } from '@/modules/users/exceptions/user-already-exists.exception';
 import { UserRepository } from '@/modules/users/repositories/user.repository';
