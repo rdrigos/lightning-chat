@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import * as argon from 'argon2';
 
 @Injectable()
-export class ArgonHasherService implements Hasher {
+export class ArgonHasher implements Hasher {
   public async hash(plain: string): Promise<string> {
     return await argon.hash(plain);
   }

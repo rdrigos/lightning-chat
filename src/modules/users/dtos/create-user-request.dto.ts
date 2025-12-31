@@ -12,6 +12,7 @@ export class CreateUserRequestDTO {
 
   @IsEmail({}, { message: 'The email address is not valid' })
   @Trim()
+  @IsString({ message: 'Email must be a string' })
   @IsNotEmpty({ message: 'Email is required' })
   public email!: string;
 

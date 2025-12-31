@@ -1,9 +1,9 @@
 import { UniqueEntityID } from '@/domain/entities/value-objects/unique-entity-id.vo';
 
 export interface EntityMetadata {
-  id: UniqueEntityID;
-  createdAt: Date;
-  updatedAt: Date;
+  id?: UniqueEntityID;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export abstract class Entity<Props> {
