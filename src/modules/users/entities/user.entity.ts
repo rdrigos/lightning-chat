@@ -11,8 +11,8 @@ export class User extends Entity<UserProps> {
     return this.props.name;
   }
 
-  public setName(name: string): this {
-    this.props.name = name;
+  public setName(value: string): this {
+    this.props.name = value;
     this.touch();
     return this;
   }
@@ -21,8 +21,8 @@ export class User extends Entity<UserProps> {
     return this.props.email;
   }
 
-  public setEmail(email: string): this {
-    this.props.email = email;
+  public setEmail(value: string): this {
+    this.props.email = value;
     this.touch();
     return this;
   }
@@ -31,8 +31,8 @@ export class User extends Entity<UserProps> {
     return this.props.password;
   }
 
-  public setPassword(password: string): this {
-    this.props.password = password;
+  public setPassword(value: string): this {
+    this.props.password = value;
     this.touch();
     return this;
   }

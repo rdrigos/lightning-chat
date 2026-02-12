@@ -1,6 +1,6 @@
 import { DRIZZLE, type DrizzleDB } from '@/infrastructure/database/drizzle/drizzle.provider';
+import { userTable } from '@/infrastructure/database/drizzle/drizzle.schema';
 import { DrizzleUserMapper } from '@/infrastructure/database/drizzle/mappers/user.mapper';
-import { userTable } from '@/infrastructure/database/drizzle/schemas';
 import { User } from '@/modules/users/entities/user.entity';
 import { UserRepository } from '@/modules/users/repositories/user.repository';
 import { Inject, Injectable } from '@nestjs/common';

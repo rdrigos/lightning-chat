@@ -1,4 +1,4 @@
-import { Hasher } from '@/core/cryptography/hasher.abstract';
+import { Hasher } from '@/domain/cryptography/hasher.abstract';
 import { CreateUserRequestDTO } from '@/modules/users/dtos/create-user-request.dto';
 import { UserDTO } from '@/modules/users/dtos/user.dto';
 import { User } from '@/modules/users/entities/user.entity';

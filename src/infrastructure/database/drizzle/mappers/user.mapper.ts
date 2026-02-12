@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@/domain/entities/value-objects/unique-entity-id.vo';
-import { DrizzleUser, DrizzleUserInsert } from '@/infrastructure/database/drizzle/schemas/user.schema';
+import { DrizzleUser, DrizzleUserInsert } from '@/infrastructure/database/drizzle/drizzle.schema';
 import { User } from '@/modules/users/entities/user.entity';
 
 export class DrizzleUserMapper {
@@ -18,14 +18,14 @@ export class DrizzleUserMapper {
     );
   }
 
-  public static toDrizzle(user: User): DrizzleUserInsert {
+  public static toDrizzle(entity: User): DrizzleUserInsert {
     return {
-      id: user.getId().toValue(),
-      name: user.getName(),
-      email: user.getEmail(),
-      password: user.getPassword(),
-      createdAt: user.getCreatedAt(),
-      updatedAt: user.getUpdatedAt(),
+      id: entity.getId().toValue(),
+      name: entity.getName(),
+      email: entity.getEmail(),
+      password: entity.getPassword(),
+      createdAt: entity.getCreatedAt(),
+      updatedAt: entity.getUpdatedAt(),
     };
   }
 }

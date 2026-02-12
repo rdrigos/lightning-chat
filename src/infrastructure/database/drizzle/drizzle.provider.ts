@@ -1,4 +1,4 @@
-import * as schemas from '@/infrastructure/database/drizzle/schemas';
+import * as schemas from '@/infrastructure/database/drizzle/drizzle.schema';
 import { EnvironmentService } from '@/infrastructure/environment/environment.service';
 import { Provider } from '@nestjs/common';
 import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';

@@ -1,4 +1,4 @@
-import { Hasher } from '@/core/cryptography/hasher.abstract';
+import { Hasher } from '@/domain/cryptography/hasher.abstract';
 import { CreateUserRequestDTO } from '@/modules/users/dtos/create-user-request.dto';
 import { UserAlreadyExistsException } from '@/modules/users/exceptions/user-already-exists.exception';
 import { UserRepository } from '@/modules/users/repositories/user.repository';
@@ -28,18 +28,18 @@ describe('Create User', () => {
 
     const result = await sut.execute(input);
 
-    // Should return a user with a valid ID (indicating successful creation)
+    // Asserts that the returned result includes a generated 'id'
     expect(result.id).toEqual(expect.any(String));
 
-    // Should not expose the password field in the use case response
+    // Asserts that the returned result does not include the password
     expect(result).not.toHaveProperty('password');
 
-    // The user should actually be persisted in the in-memory repository
+    // Asserts that the user was actually saved in the repository
     const createdUser = await userRepository.findByEmail(input.email);
     expect(createdUser).toBeDefined();
   });
 
-  it('should hash user password upon registration', async () => {
+  it('should not store the user password in plain text', async () => {
     const input: CreateUserRequestDTO = {
       name: faker.person.fullName(),
       email: faker.internet.email(),
@@ -48,16 +48,16 @@ describe('Create User', () => {
 
     await sut.execute(input);
 
-    // Retrieve the created user and ensure the password is not stored in plain text
+    // Retrieves the user from the repository and asserts that the stored password is not plain text
     const user = await userRepository.findByEmail(input.email);
     expect(user?.getPassword()).not.toBe(input.password);
 
-    // Verify that the stored password hash matches the original password
+    // Verifies that the stored password matches the original password when hashed
     const isPasswordHashed = await hasher.compare(input.password, user!.getPassword());
     expect(isPasswordHashed).toEqual(true);
   });
 
-  it('should not allow creating a user with an existing email', async () => {
+  it('should throw an error when a user with the same email already exists', async () => {
     const input: CreateUserRequestDTO = {
       name: faker.person.fullName(),
       email: faker.internet.email(),
@@ -66,6 +66,7 @@ describe('Create User', () => {
 
     await sut.execute(input);
 
+    // Asserts that creating another user with the same email throws a UserAlreadyExistsException
     await expect(sut.execute(input)).rejects.toBeInstanceOf(UserAlreadyExistsException);
   });
 });

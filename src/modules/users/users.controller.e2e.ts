@@ -1,102 +1,100 @@
-import { Hasher } from '@/core/cryptography/hasher.abstract';
-import { GlobalValidationPipe } from '@/infrastructure/http/pipes/global-validation.pipe';
+import { Hasher } from '@/domain/cryptography/hasher.abstract';
 import { CreateUserRequestDTO } from '@/modules/users/dtos/create-user-request.dto';
 import { UserRepository } from '@/modules/users/repositories/user.repository';
+import { CreateUserUseCase } from '@/modules/users/use-cases/create-user.use-case';
+import { UsersController } from '@/modules/users/users.controller';
 import { faker } from '@faker-js/faker';
-import { ClassProvider, HttpStatus, INestApplication } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common';
+import { NestFastifyApplication } from '@nestjs/platform-fastify';
 import request from 'supertest';
 import { FakeHasher } from 'tests/cryptography/hasher';
 import { createTestApp } from 'tests/helpers/create-test-app';
 import { InMemoryUserRepository } from 'tests/repositories/user.repository';
-import { beforeAll, beforeEach, describe, expect, it } from 'vitest';
-
-const overrides: ClassProvider[] = [
-  {
-    provide: UserRepository,
-    useClass: InMemoryUserRepository,
-  },
-  {
-    provide: Hasher,
-    useClass: FakeHasher,
-  },
-];
+import { beforeAll, describe, expect, it } from 'vitest';
 
 describe('Users (E2E)', () => {
-  let app: INestApplication;
+  let app: NestFastifyApplication;
   let userRepository: UserRepository;
 
   beforeAll(async () => {
-    app = await createTestApp(overrides);
-    app.useGlobalPipes(new GlobalValidationPipe());
+    app = await createTestApp({
+      controllers: [UsersController],
+      providers: [
+        CreateUserUseCase,
+        {
+          provide: UserRepository,
+          useClass: InMemoryUserRepository,
+        },
+        {
+          provide: Hasher,
+          useClass: FakeHasher,
+        },
+      ],
+    });
 
+    // Recovers container dependencies for use in tests
     userRepository = app.get(UserRepository);
-
-    await app.init();
   });
 
-  beforeEach(() => {
-    (userRepository as InMemoryUserRepository).reset();
-  });
-
-  it('[POST] /users - success', async () => {
+  it('[POST] /users - should create a new user successfully', async () => {
     const payload: CreateUserRequestDTO = {
       name: faker.person.fullName(),
       email: faker.internet.email(),
-      password: 'p@ssW0rd',
+      password: 'Pa$$W0rd',
     };
 
-    // Sends a POST request to create a new user with the payload
+    // Attempt to create the user with
     const response = await request(app.getHttpServer()).post('/users').send(payload);
 
-    // Checks that the response status is 201 Created
+    // Asserts that the response status is 201
     expect(response.statusCode).toBe(HttpStatus.CREATED);
 
-    // Verifies that the response contains an 'id' and does not include the password
+    // Asserts that the response body contains the user's "id" and does not contain the "password"
     expect(response.body).toHaveProperty('id');
     expect(response.body).not.toHaveProperty('password');
 
-    // Verifies that a user with the given email exists in the repository
+    // Asserts that a user with the specified email exists in the repository
     const user = await userRepository.findByEmail(payload.email);
     expect(user).toBeDefined();
   });
 
-  it('[POST] /users - fails on duplicate email', async () => {
+  it('[POST] /users - should not allow creating a user with an existing email', async () => {
     const payload: CreateUserRequestDTO = {
       name: faker.person.fullName(),
       email: faker.internet.email(),
-      password: 'p@ssW0rd',
+      password: 'Pa$$W0rd',
     };
 
-    // Creates the first user with the given email
+    // Creates the first user with the given payload
     await request(app.getHttpServer()).post('/users').send(payload);
 
-    // Attempts to create the same user again — should trigger a duplicate email error
+    // Attempts to create a second user with the same email
     const response = await request(app.getHttpServer()).post('/users').send(payload);
 
-    // Asserts that the response is a 409 conflict and the message indicates the email already exists
+    // Asserts that the response returns a conflict status and the appropriate error message
     expect(response.statusCode).toBe(HttpStatus.CONFLICT);
     expect(response.body.message).toContain('already exists');
   });
 
-  it('[POST] /users - fails on validation error', async () => {
+  it('[POST] /users - should fail when payload is invalid', async () => {
     const payload: CreateUserRequestDTO = {
       name: 'Doe',
       email: 'invalid-email',
       password: 'short',
     };
 
-    // Sends a POST request with invalid data to trigger validation errors
+    // Sends a request to create a user with invalid data
     const response = await request(app.getHttpServer()).post('/users').send(payload);
 
-    // Checks that the response status is 400 Bad Request
+    // Asserts that the response status is 400
     expect(response.statusCode).toBe(HttpStatus.BAD_REQUEST);
 
-    // Ensures the response contains an 'errors' array with at least one validation error
+    // Asserts that the response contains an array of validation errors
     expect(response.body).toHaveProperty('errors');
     expect(Array.isArray(response.body.errors)).toBe(true);
     expect(response.body.errors.length).toBeGreaterThan(0);
 
-    // Verifies that each error object contains 'property' and 'message' properties
+    // Asserts that each validation error includes the 'property' and 'message' fields
     response.body.errors.forEach((error: any) => {
       expect(error).toHaveProperty('property');
       expect(error).toHaveProperty('message');

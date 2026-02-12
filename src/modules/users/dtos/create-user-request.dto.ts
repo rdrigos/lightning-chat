@@ -1,5 +1,5 @@
-import { Trim } from '@/core/decorators/trim.decorator';
 import { PASSWORD_REGEX } from '@/domain/regex';
+import { Trim } from '@/infrastructure/decorators/trim.decorator';
 import { IsEmail, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from 'class-validator';
 
 export class CreateUserRequestDTO {
@@ -12,6 +12,7 @@ export class CreateUserRequestDTO {
 
   @IsEmail({}, { message: 'The email address is not valid' })
   @Trim()
+  @IsString({ message: 'Email must be a string' })
   @IsNotEmpty({ message: 'Email is required' })
   public email!: string;
 
