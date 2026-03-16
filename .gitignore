@@ -1,0 +1,15 @@
+# Compiled output
+coverage
+dist
+node_modules
+
+# IDEs and editors
+.idea
+.idx
+.vscode
+
+# Environment variable files
+.env
+
+# Development
+playground.*
