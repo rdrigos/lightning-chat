@@ -2,5 +2,6 @@
 **/.idx
 **/.vscode
 **/node_modules
+**.sql
 package.json
 pnpm-lock.yaml
